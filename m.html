@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electronic Village | حلول رقمية احترافية</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Tahoma,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(0,214,255,.14), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(138,92,246,.12), transparent 30%),
+        linear-gradient(135deg,#050816 0%,#0b1020 45%,#111827 100%);
+      color:#fff;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1180px,calc(100% - 32px));margin:0 auto}
+    .glass{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(16px);
+      box-shadow:0 24px 80px rgba(0,0,0,.35);
+    }
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(3,6,16,.55);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      width:48px;height:48px;border-radius:16px;
+      background:linear-gradient(135deg,#00d4ff,#7c3aed,#22d3ee);
+      box-shadow:0 0 28px rgba(34,211,238,.35);
+      flex-shrink:0;
+    }
+    .brand h1{font-size:28px;font-weight:900;letter-spacing:.4px}
+    .brand p{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px}
+    nav ul{list-style:none;display:flex;gap:26px;color:rgba(255,255,255,.72);font-size:15px}
+    nav li:hover{color:#67e8f9;transition:.25s}
+
+    .hero{padding:78px 0 54px}
+    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:34px;align-items:center}
+    .badge{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 18px;border-radius:999px;
+      background:rgba(34,211,238,.10);
+      border:1px solid rgba(34,211,238,.20);
+      color:#7dd3fc;font-size:14px;margin-bottom:20px;
+    }
+    .badge span{width:9px;height:9px;border-radius:50%;background:#67e8f9;box-shadow:0 0 10px #67e8f9}
+    .hero h2{font-size:64px;line-height:1.06;font-weight:900}
+    .hero .highlight{
+      display:block;
+      background:linear-gradient(90deg,#67e8f9,#a78bfa,#22d3ee);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;color:transparent;
+    }
+    .hero p{margin-top:20px;color:rgba(255,255,255,.68);font-size:18px;line-height:2;max-width:720px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+    .btn{
+      border:none;border-radius:18px;padding:16px 24px;font-size:15px;font-weight:800;cursor:pointer;
+      transition:.25s ease;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-main{
+      background:linear-gradient(90deg,#00d4ff,#7c3aed,#22d3ee);
+      color:#fff;box-shadow:0 18px 36px rgba(124,58,237,.28)
+    }
+    .btn-alt{background:rgba(255,255,255,.05);color:#fff;border:1px solid rgba(255,255,255,.10)}
+
+    .hero-card{border-radius:32px;overflow:hidden;position:relative}
+    .hero-card img{width:100%;height:520px;object-fit:cover;display:block}
+    .hero-card::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(4,8,20,.88),rgba(4,8,20,.12));
+    }
+    .hero-card-content{position:absolute;right:20px;left:20px;bottom:20px;z-index:2;display:grid;gap:12px}
+    .hero-card-box{padding:18px 20px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(12px)}
+    .hero-card-box small{display:block;color:rgba(255,255,255,.56);margin-bottom:6px}
+    .hero-card-box strong{font-size:22px;line-height:1.5}
+
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+    .stat{padding:22px;border-radius:24px}
+    .stat small{display:block;color:rgba(255,255,255,.48);font-size:14px}
+    .stat strong{display:block;margin-top:8px;font-size:32px;color:#7dd3fc}
+
+    .section{padding:46px 0 18px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:28px}
+    .section-head small{display:block;color:#7dd3fc;margin-bottom:8px}
+    .section-head h3{font-size:44px;font-weight:900}
+    .pill{padding:12px 18px;border-radius:999px;background:rgba(34,211,238,.10);border:1px solid rgba(34,211,238,.20);color:#7dd3fc;font-size:14px}
+
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .service{padding:26px;border-radius:28px;transition:.25s}
+    .service:hover{transform:translateY(-6px);border-color:rgba(34,211,238,.30)}
+    .service-icon{
+      width:54px;height:54px;border-radius:18px;display:grid;place-items:center;
+      margin-bottom:18px;font-size:24px;
+      background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(124,58,237,.18));
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .service h4{font-size:26px;font-weight:900;margin-bottom:10px}
+    .service p{color:rgba(255,255,255,.62);line-height:1.9}
+
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+    .box{padding:34px;border-radius:30px}
+    .box small{display:block;color:#7dd3fc;margin-bottom:8px}
+    .box h4{font-size:38px;font-weight:900;line-height:1.25}
+    .box p{margin-top:16px;color:rgba(255,255,255,.65);line-height:2}
+    .feature-list{display:grid;gap:14px}
+    .feature{padding:22px;border-radius:24px;font-size:16px}
+
+    .booking-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;margin-top:24px;padding-bottom:80px}
+    .form{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+    .form input,.form select,.form textarea{
+      width:100%;padding:16px 14px;border-radius:18px;outline:none;color:#fff;font-size:14px;
+      border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05)
+    }
+    .form textarea{grid-column:span 2;min-height:140px;resize:none}
+    .span-2{grid-column:span 2}
+    .mini{margin-top:20px;padding:20px;border-radius:24px}
+    .mini strong{font-size:22px;display:block;margin-top:6px;color:#7dd3fc}
+
+    .whatsapp{
+      position:fixed;bottom:20px;left:20px;z-index:70;
+      background:linear-gradient(90deg,#25D366,#128C7E);
+      padding:14px 18px;border-radius:999px;font-weight:800;box-shadow:0 12px 28px rgba(0,0,0,.3)
+    }
+
+    #ai-chat-toggle{
+      position:fixed;
+      bottom:84px;
+      left:20px;
+      z-index:75;
+      width:58px;
+      height:58px;
+      border:none;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      font-size:24px;
+      color:#fff;
+      background:linear-gradient(135deg,#00d4ff,#7c3aed,#22d3ee);
+      box-shadow:0 14px 30px rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    #ai-chat-toggle:hover{transform:translateY(-2px) scale(1.03)}
+
+    #ai-chat-widget{
+      position:fixed;
+      left:20px;
+      bottom:152px;
+      width:360px;
+      max-width:calc(100% - 24px);
+      border-radius:26px;
+      overflow:hidden;
+      z-index:80;
+      background:rgba(8,12,24,.92);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 30px 80px rgba(0,0,0,.45);
+      backdrop-filter:blur(16px);
+      display:none;
+    }
+    #ai-chat-widget.open{display:block}
+    .ai-chat-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 18px;
+      background:linear-gradient(90deg,rgba(0,212,255,.18),rgba(124,58,237,.18));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .ai-chat-header strong{display:block;font-size:16px}
+    .ai-chat-header small{display:block;margin-top:4px;color:rgba(255,255,255,.62)}
+    .ai-chat-header button{
+      width:34px;height:34px;border:none;border-radius:12px;cursor:pointer;
+      background:rgba(255,255,255,.08);color:#fff;font-size:20px;
+    }
+    .ai-chat-body{padding:16px;max-height:340px;overflow:auto;background:rgba(255,255,255,.02)}
+    .ai-msg{
+      max-width:88%;padding:13px 14px;border-radius:18px;line-height:1.8;font-size:14px;margin-bottom:10px;
+      white-space:pre-wrap;
+    }
+    .ai-bot{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+    .ai-user{background:linear-gradient(90deg,#00d4ff,#7c3aed);margin-right:auto}
+    .ai-quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .quick-btn{
+      border:none;cursor:pointer;padding:10px 12px;border-radius:999px;font-size:12px;
+      background:rgba(34,211,238,.12);color:#9eeaf7;border:1px solid rgba(34,211,238,.18)
+    }
+    .ai-chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+    .ai-chat-input input{
+      flex:1;border:none;outline:none;padding:14px;border-radius:16px;
+      background:rgba(255,255,255,.06);color:#fff
+    }
+    .ai-chat-input button{
+      border:none;cursor:pointer;padding:0 18px;border-radius:16px;font-weight:800;color:#fff;
+      background:linear-gradient(90deg,#00d4ff,#7c3aed,#22d3ee)
+    }
+
+    .notice{margin-top:14px;font-size:14px;color:#a5f3fc;display:none}
+    .notice.error{color:#fca5a5}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0 40px;text-align:center;color:rgba(255,255,255,.48);line-height:1.9;font-size:14px}
+
+    .fade{opacity:0;transform:translateY(24px);animation:fadeUp .8s ease forwards}
+    .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}.d5{animation-delay:.40s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+    @media (max-width:1100px){
+      .hero-grid,.services,.split,.booking-grid,.stats{grid-template-columns:1fr}
+      .hero h2{font-size:50px}
+    }
+    @media (max-width:760px){
+      nav{display:none}
+      .hero{padding-top:56px}
+      .hero h2{font-size:38px}
+      .section-head h3,.box h4{font-size:30px}
+      .form{grid-template-columns:1fr}
+      .form textarea,.span-2{grid-column:span 1}
+      .hero-card img{height:360px}
+      .container{width:min(100% - 22px,1180px)}
+      .brand h1{font-size:22px}
+      #ai-chat-widget{left:12px;bottom:146px;width:calc(100% - 24px)}
+      #ai-chat-toggle{left:12px;bottom:82px}
+      .whatsapp{left:12px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand fade">
+        <div class="logo"></div>
+        <div>
+          <h1>Electronic Village</h1>
+          <p>تصميم مواقع وأنظمة رقمية باحترافية عالية</p>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#services">الخدمات</a></li>
+          <li><a href="#about">عنّا</a></li>
+          <li><a href="#booking">احجز الآن</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge fade"><span></span> حلول رقمية مصممة لتطوير أعمالك</div>
+        <h2 class="fade d1">
+          خلِّ العميل
+          <span class="highlight">يحجز خدمته منك مباشرة</span>
+        </h2>
+        <p class="fade d2">
+          نساعدك في بناء مواقع وأنظمة رقمية احترافية تخدم نشاطك، وتسهّل على عملاءك الوصول إليك وطلب الخدمة بشكل واضح وسريع.
+        </p>
+
+        <div class="hero-actions fade d3">
+          <a class="btn btn-main" href="#booking">احجز الآن</a>
+          <a class="btn btn-alt" href="#services">استعراض الخدمات</a>
+        </div>
+
+        <div class="stats fade d4">
+          <div class="stat glass">
+            <small>الخدمات الأساسية</small>
+            <strong>3+</strong>
+          </div>
+          <div class="stat glass">
+            <small>طريقة التواصل</small>
+            <strong>واتساب</strong>
+          </div>
+          <div class="stat glass">
+            <small>سرعة الرد</small>
+            <strong>سريع</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card glass fade d2">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80" alt="حلول رقمية" />
+        <div class="hero-card-content">
+          <div class="hero-card-box">
+            <small>عرض واضح</small>
+            <strong>خدمات مرتبة تساعد العميل يفهم طلبه بسرعة</strong>
+          </div>
+          <div class="hero-card-box">
+            <small>نقطة التحويل</small>
+            <strong>نموذج حجز مباشر يرسل تفاصيل العميل بشكل منظم</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head fade">
+        <div>
+          <small>الخدمات</small>
+          <h3>وش نقدّم لك؟</h3>
+        </div>
+        <div class="pill">Electronic Village</div>
+      </div>
+
+      <div class="services">
+        <div class="service glass fade d1">
+          <div class="service-icon">🌐</div>
+          <h4>تصميم مواقع</h4>
+          <p>تصميم مواقع احترافية تناسب نشاطك وتظهر خدماتك بشكل مرتب وواضح أمام العملاء.</p>
+        </div>
+        <div class="service glass fade d2">
+          <div class="service-icon">⚙️</div>
+          <h4>أنظمة حجز وإدارة</h4>
+          <p>تطوير أنظمة تساعدك تستقبل الطلبات أو الحجوزات بشكل أسهل وتتابعها بطريقة منظمة.</p>
+        </div>
+        <div class="service glass fade d3">
+          <div class="service-icon">🛠️</div>
+          <h4>تطوير وتعديل</h4>
+          <p>تعديل المواقع الحالية وتحسين الواجهة أو إضافة خصائص جديدة حسب احتياجك.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container split">
+      <div class="box glass fade">
+        <small>عن Electronic Village</small>
+        <h4>حلول رقمية تخدم النشاط بشكل مباشر</h4>
+        <p>
+          الفكرة من الموقع هذا مو مجرد عرض خدمات، لكن تحويل الزائر إلى عميل فعلي من خلال صفحة واضحة، وخدمات مرتبة، ونموذج حجز مباشر يختصر وقت التواصل.
+        </p>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature glass fade d1">عرض احترافي وواضح للخدمات</div>
+        <div class="feature glass fade d2">واجهة مناسبة للعرض على العملاء</div>
+        <div class="feature glass fade d3">إمكانية التوسع وإضافة خدمات لاحقًا</div>
+        <div class="feature glass fade d4">قابل للربط مع واتساب أو شات AI</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="booking">
+    <div class="container booking-grid">
+      <div class="box glass fade">
+        <small>ابدأ طلبك</small>
+        <h4>اطلب الخدمة المناسبة لك</h4>
+        <p>عبّ النموذج التالي وسنراجع طلبك ونتواصل معك في أقرب وقت ممكن.</p>
+
+        <form class="form" id="lead-form">
+          <input type="text" id="name" placeholder="الاسم الكامل" required />
+          <input type="tel" id="phone" placeholder="رقم الجوال" required />
+          <select id="service" class="span-2" required>
+            <option value="">اختر الخدمة</option>
+            <option>تصميم موقع إلكتروني</option>
+            <option>نظام حجز / إدارة</option>
+            <option>تطوير أو تعديل موقع</option>
+            <option>خدمة أخرى</option>
+          </select>
+          <textarea id="details" placeholder="اكتب تفاصيل طلبك"></textarea>
+          <button class="btn btn-main span-2" type="submit" id="lead-submit-btn">إرسال الطلب</button>
+        </form>
+        <div class="notice" id="lead-notice"></div>
+      </div>
+
+      <div class="box glass fade d2">
+        <small>معلومات سريعة</small>
+        <h4>طريقة تواصل مرتبة وسهلة</h4>
+        <p>
+          النموذج هذا يسهّل على العميل يحدد الخدمة المطلوبة من البداية، ويرسل لك البيانات بشكل واضح بدل الرسائل العشوائية.
+        </p>
+        <div class="mini glass">
+          <small>الرد على الطلبات</small>
+          <strong>في أقرب وقت ممكن</strong>
+        </div>
+        <div class="mini glass">
+          <small>وسيلة الاستقبال الحالية</small>
+          <strong>واتساب مباشر + شات AI</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <a class="whatsapp" href="https://wa.me/966549802265" target="_blank">تواصل واتساب</a>
+
+  <div id="ai-chat-toggle" title="مساعد ذكي">✦</div>
+
+  <div id="ai-chat-widget">
+    <div class="ai-chat-header">
+      <div>
+        <strong>مساعد Electronic Village</strong>
+        <small>جاهز للإجابة على استفساراتك</small>
+      </div>
+      <button type="button" id="ai-chat-close">×</button>
+    </div>
+    <div class="ai-chat-body" id="ai-chat-body">
+      <div class="ai-msg ai-bot">مرحبًا بك 👋
+أنا مساعد Electronic Village.
+أقدر أساعدك في اختيار الخدمة المناسبة والإجابة على استفساراتك بسرعة.</div>
+      <div class="ai-quick-actions">
+        <button type="button" class="quick-btn" data-text="أحتاج تصميم موقع إلكتروني">تصميم موقع</button>
+        <button type="button" class="quick-btn" data-text="أحتاج نظام حجز أو إدارة">نظام حجز</button>
+        <button type="button" class="quick-btn" data-text="أحتاج تطوير أو تعديل موقع موجود">تعديل موقع</button>
+      </div>
+    </div>
+    <form class="ai-chat-input" id="ai-chat-form">
+      <input type="text" id="ai-chat-text" placeholder="اكتب رسالتك..." />
+      <button type="submit" id="ai-send-btn">إرسال</button>
+    </form>
+  </div>
+
+  <footer>
+    <div>Electronic Village</div>
+    <div>تصميم مواقع • أنظمة رقمية • تطوير وتعديل</div>
+  </footer>
+
+  <script>
+    const BACKEND_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://127.0.0.1:8000"
+      : "https://YOUR-BACKEND-URL.com";
+    const BACKEND_CHAT_URL = BACKEND_BASE_URL + "/chat";
+    const BACKEND_LEAD_URL = BACKEND_BASE_URL + "/lead";
+    const WHATSAPP_NUMBER = "966549802265";
+    const OPEN_WHATSAPP_AFTER_FORM = true;
+
+    const aiToggle = document.getElementById("ai-chat-toggle");
+    const aiWidget = document.getElementById("ai-chat-widget");
+    const aiClose = document.getElementById("ai-chat-close");
+    const aiForm = document.getElementById("ai-chat-form");
+    const aiInput = document.getElementById("ai-chat-text");
+    const aiBody = document.getElementById("ai-chat-body");
+    const aiSendBtn = document.getElementById("ai-send-btn");
+    const leadForm = document.getElementById("lead-form");
+    const leadSubmitBtn = document.getElementById("lead-submit-btn");
+    const leadNotice = document.getElementById("lead-notice");
+
+    const chatHistory = [];
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function addMessage(text, type) {
+      const div = document.createElement("div");
+      div.className = "ai-msg ai-" + type;
+      div.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
+      aiBody.appendChild(div);
+      aiBody.scrollTop = aiBody.scrollHeight;
+    }
+
+    function addTyping() {
+      const div = document.createElement("div");
+      div.className = "ai-msg ai-bot";
+      div.id = "ai-typing";
+      div.textContent = "جاري الكتابة...";
+      aiBody.appendChild(div);
+      aiBody.scrollTop = aiBody.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById("ai-typing");
+      if (typing) typing.remove();
+    }
+
+    function showLeadNotice(text, isError) {
+      leadNotice.textContent = text;
+      leadNotice.style.display = "block";
+      leadNotice.classList.toggle("error", !!isError);
+    }
+
+    async function askBackend(userText) {
+      chatHistory.push({ role: "user", content: userText });
+      addTyping();
+      aiSendBtn.disabled = true;
+      aiInput.disabled = true;
+
+      try {
+        const response = await fetch(BACKEND_CHAT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ messages: chatHistory })
+        });
+
+        const data = await response.json();
+        removeTyping();
+
+        if (!response.ok) {
+          addMessage(data.error || "صار خطأ في الاتصال بالسيرفر.", "bot");
+          return;
+        }
+
+        const reply = data.reply || "ما وصلني رد واضح.";
+        chatHistory.push({ role: "assistant", content: reply });
+        addMessage(reply, "bot");
+      } catch (error) {
+        removeTyping();
+        addMessage("تعذر الاتصال بالسيرفر. تأكد أن chat.py شغال على المنفذ 8000.", "bot");
+      } finally {
+        aiSendBtn.disabled = false;
+        aiInput.disabled = false;
+        aiInput.focus();
+      }
+    }
+
+    async function submitLead(event) {
+      event.preventDefault();
+      leadSubmitBtn.disabled = true;
+      leadNotice.style.display = "none";
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const service = document.getElementById("service").value.trim();
+      const details = document.getElementById("details").value.trim();
+
+      try {
+        const response = await fetch(BACKEND_LEAD_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, phone, service, details })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showLeadNotice(data.error || "تعذر حفظ الطلب.", true);
+          return;
+        }
+
+        showLeadNotice("تم إرسال الطلب بنجاح، وسيتم التواصل معك في أقرب وقت ممكن.", false);
+        leadForm.reset();
+
+        const message =
+          "السلام عليكم%0Aعندي طلب جديد من موقع Electronic Village:%0A%0A" +
+          "الاسم: " + encodeURIComponent(name) + "%0A" +
+          "رقم الجوال: " + encodeURIComponent(phone) + "%0A" +
+          "الخدمة: " + encodeURIComponent(service) + "%0A" +
+          "التفاصيل: " + encodeURIComponent(details || "لا يوجد");
+
+        if (OPEN_WHATSAPP_AFTER_FORM) {
+          window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message, "_blank");
+        }
+      } catch (error) {
+        showLeadNotice("تعذر الاتصال بالسيرفر. تأكد أن chat.py شغال.", true);
+      } finally {
+        leadSubmitBtn.disabled = false;
+      }
+    }
+
+    aiToggle.addEventListener("click", function () {
+      aiWidget.classList.toggle("open");
+    });
+
+    aiClose.addEventListener("click", function () {
+      aiWidget.classList.remove("open");
+    });
+
+    aiForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const text = aiInput.value.trim();
+      if (!text) return;
+      addMessage(text, "user");
+      aiInput.value = "";
+      askBackend(text);
+    });
+
+    document.querySelectorAll(".quick-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const text = btn.getAttribute("data-text");
+        addMessage(text, "user");
+        askBackend(text);
+      });
+    });
+
+    leadForm.addEventListener("submit", submitLead);
+  </script>
+</body>
+</html>
