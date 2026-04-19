@@ -967,145 +967,145 @@
   </footer>
 
   <script>
-    const BACKEND_CHAT_URL = "/api/chat";
-    const WHATSAPP_NUMBER = "966549802265";
+  const BACKEND_CHAT_URL = "/api/chat";
+  const WHATSAPP_NUMBER = "966549802265";
 
-    const aiToggle = document.getElementById("ai-chat-toggle");
-    const aiWidget = document.getElementById("ai-chat-widget");
-    const aiClose = document.getElementById("ai-chat-close");
-    const aiForm = document.getElementById("ai-chat-form");
-    const aiInput = document.getElementById("ai-chat-text");
-    const aiBody = document.getElementById("ai-chat-body");
-    const aiSendBtn = document.getElementById("ai-send-btn");
-    const leadForm = document.getElementById("lead-form");
-    const leadSubmitBtn = document.getElementById("lead-submit-btn");
-    const leadNotice = document.getElementById("lead-notice");
+  const aiToggle = document.getElementById("ai-chat-toggle");
+  const aiWidget = document.getElementById("ai-chat-widget");
+  const aiClose = document.getElementById("ai-chat-close");
+  const aiForm = document.getElementById("ai-chat-form");
+  const aiInput = document.getElementById("ai-chat-text");
+  const aiBody = document.getElementById("ai-chat-body");
+  const aiSendBtn = document.getElementById("ai-send-btn");
+  const leadForm = document.getElementById("lead-form");
+  const leadSubmitBtn = document.getElementById("lead-submit-btn");
+  const leadNotice = document.getElementById("lead-notice");
 
-    const chatHistory = [];
+  const chatHistory = [];
 
-    function escapeHtml(text) {
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-    function addMessage(text, type) {
-      const div = document.createElement("div");
-      div.className = "ai-msg ai-" + type;
-      div.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
-      aiBody.appendChild(div);
-      aiBody.scrollTop = aiBody.scrollHeight;
-    }
+  function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "ai-msg ai-" + type;
+    div.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
+    aiBody.appendChild(div);
+    aiBody.scrollTop = aiBody.scrollHeight;
+  }
 
-    function addTyping() {
-      const div = document.createElement("div");
-      div.className = "ai-msg ai-bot";
-      div.id = "ai-typing";
-      div.textContent = "جاري الكتابة...";
-      aiBody.appendChild(div);
-      aiBody.scrollTop = aiBody.scrollHeight;
-    }
+  function addTyping() {
+    const div = document.createElement("div");
+    div.className = "ai-msg ai-bot";
+    div.id = "ai-typing";
+    div.textContent = "جاري الكتابة...";
+    aiBody.appendChild(div);
+    aiBody.scrollTop = aiBody.scrollHeight;
+  }
 
-    function removeTyping() {
-      const typing = document.getElementById("ai-typing");
-      if (typing) typing.remove();
-    }
+  function removeTyping() {
+    const typing = document.getElementById("ai-typing");
+    if (typing) typing.remove();
+  }
 
-    function showLeadNotice(text, isError) {
-      leadNotice.textContent = text;
-      leadNotice.style.display = "block";
-      leadNotice.classList.toggle("error", !!isError);
-    }
+  function showLeadNotice(text, isError) {
+    leadNotice.textContent = text;
+    leadNotice.style.display = "block";
+    leadNotice.classList.toggle("error", !!isError);
+  }
 
-    async function askBackend(userText) {
-      chatHistory.push({ role: "user", content: userText });
-      addTyping();
-      aiSendBtn.disabled = true;
-      aiInput.disabled = true;
+  async function askBackend(userText) {
+    chatHistory.push({ role: "user", content: userText });
+    addTyping();
+    aiSendBtn.disabled = true;
+    aiInput.disabled = true;
 
-      try {
-        const response = await fetch(BACKEND_CHAT_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ messages: chatHistory })
-        });
+    try {
+      const response = await fetch(BACKEND_CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ messages: chatHistory })
+      });
 
-        const data = await response.json();
-        removeTyping();
+      const data = await response.json();
+      removeTyping();
 
-        if (!response.ok) {
-          addMessage(data.error || "صار خطأ في الاتصال بالسيرفر.", "bot");
-          return;
-        }
-
-        const reply = data.reply || "ما وصلني رد واضح.";
-        chatHistory.push({ role: "assistant", content: reply });
-        addMessage(reply, "bot");
-      } catch (error) {
-        removeTyping();
-        addMessage("تعذر الاتصال بالسيرفر.", "bot");
-      } finally {
-        aiSendBtn.disabled = false;
-        aiInput.disabled = false;
-        aiInput.focus();
+      if (!response.ok) {
+        addMessage("خطأ: " + (data.error || "صار خطأ في الاتصال بالسيرفر."), "bot");
+        return;
       }
+
+      const reply = data.reply || "ما وصلني رد واضح.";
+      chatHistory.push({ role: "assistant", content: reply });
+      addMessage(reply, "bot");
+    } catch (error) {
+      removeTyping();
+      addMessage("تعذر الاتصال بالسيرفر: " + error.message, "bot");
+    } finally {
+      aiSendBtn.disabled = false;
+      aiInput.disabled = false;
+      aiInput.focus();
     }
+  }
 
-    function submitLead(event) {
-      event.preventDefault();
-      leadSubmitBtn.disabled = true;
-      leadNotice.style.display = "none";
+  function submitLead(event) {
+    event.preventDefault();
+    leadSubmitBtn.disabled = true;
+    leadNotice.style.display = "none";
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const service = document.getElementById("service").value.trim();
-      const details = document.getElementById("details").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const service = document.getElementById("service").value.trim();
+    const details = document.getElementById("details").value.trim();
 
-      const message =
-        "السلام عليكم%0Aعندي طلب جديد من موقع Electronic Village:%0A%0A" +
-        "الاسم: " + encodeURIComponent(name) + "%0A" +
-        "رقم الجوال: " + encodeURIComponent(phone) + "%0A" +
-        "الخدمة: " + encodeURIComponent(service) + "%0A" +
-        "التفاصيل: " + encodeURIComponent(details || "لا يوجد");
+    const message =
+      "السلام عليكم%0Aعندي طلب جديد من موقع Electronic Village:%0A%0A" +
+      "الاسم: " + encodeURIComponent(name) + "%0A" +
+      "رقم الجوال: " + encodeURIComponent(phone) + "%0A" +
+      "الخدمة: " + encodeURIComponent(service) + "%0A" +
+      "التفاصيل: " + encodeURIComponent(details || "لا يوجد");
 
-      showLeadNotice("تم تجهيز طلبك، وسيتم تحويلك إلى واتساب.", false);
-      leadForm.reset();
+    showLeadNotice("تم تجهيز طلبك، وسيتم تحويلك إلى واتساب.", false);
+    leadForm.reset();
 
-      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message, "_blank");
-      leadSubmitBtn.disabled = false;
-    }
+    window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message, "_blank");
+    leadSubmitBtn.disabled = false;
+  }
 
-    aiToggle.addEventListener("click", function () {
-      aiWidget.classList.toggle("open");
-    });
+  aiToggle.addEventListener("click", function () {
+    aiWidget.classList.toggle("open");
+  });
 
-    aiClose.addEventListener("click", function () {
-      aiWidget.classList.remove("open");
-    });
+  aiClose.addEventListener("click", function () {
+    aiWidget.classList.remove("open");
+  });
 
-    aiForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const text = aiInput.value.trim();
-      if (!text) return;
+  aiForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const text = aiInput.value.trim();
+    if (!text) return;
+    addMessage(text, "user");
+    aiInput.value = "";
+    askBackend(text);
+  });
+
+  document.querySelectorAll(".quick-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const text = btn.getAttribute("data-text");
       addMessage(text, "user");
-      aiInput.value = "";
       askBackend(text);
     });
+  });
 
-    document.querySelectorAll(".quick-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        const text = btn.getAttribute("data-text");
-        addMessage(text, "user");
-        askBackend(text);
-      });
-    });
-
-    leadForm.addEventListener("submit", submitLead);
-  </script>
+  leadForm.addEventListener("submit", submitLead);
+</script>
 </body>
 </html>
